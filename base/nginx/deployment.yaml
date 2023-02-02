@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: n:g<i>n|x-n*g?inx
 spec:
   replicas: 1
   revisionHistoryLimit: 3
