@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../base/nginx
+  - charts
 
-images:
-- name: nginx
-  newTag: 1.23.1
+components:
+  - images
