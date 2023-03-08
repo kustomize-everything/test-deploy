@@ -3,7 +3,3 @@ kind: Kustomization
 
 resources:
   - ../../base/nginx
-  - charts
-
-components:
-  - images
