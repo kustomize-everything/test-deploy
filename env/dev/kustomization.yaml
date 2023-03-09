@@ -12,4 +12,4 @@ images:
 helmCharts:
   - name: kube-prometheus-stack
     releaseName: prometheus
-    version: 40.0.0
+    version: 42.0.0

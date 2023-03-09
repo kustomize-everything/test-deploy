@@ -1,15 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
 - ../../base/nginx
-
+helmCharts:
+- name: kube-prometheus-stack
+  releaseName: prometheus
+  version: 40.0.0
 images:
 - name: nginx
   newName: nginxTwo
   newTag: 0.0.1
-
-helmCharts:
-- name: kube-prometheus-stack
-  releaseName: prometheus
-  version: 44.0.0
