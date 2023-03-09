@@ -10,6 +10,6 @@ images:
   newTag: 0.0.1
 
 helmCharts:
-  - name: kube-prometheus-stack
-    releaseName: prometheus
-    version: 44.0.0
+- name: kube-prometheus-stack
+  releaseName: prometheus
+  version: 44.0.0
