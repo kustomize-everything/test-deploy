@@ -4,6 +4,7 @@ resources:
 - ../../base/nginx
 helmCharts:
 - name: kube-prometheus-stack
+  repo: https://prometheus-community.github.io/helm-charts
   releaseName: prometheus
   version: 40.0.0
 images:
