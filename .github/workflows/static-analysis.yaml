@@ -1,0 +1,54 @@
+name: render
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        overlay: [dev, messy, production]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        # fetch-depth: 0 needed to get all branches
+        fetch-depth: 0
+        path: test-deploy
+        token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
+
+    - name: Render
+      uses: kustomize-everything/action-env-build-and-deploy@main
+      if: github.event_name == 'pull_request'
+      with:
+        dry-run: "true"
+        environment: ${{ matrix.overlay }}
+        push-environment-regex: (dev|messy|production)
+        pr-environment-regex: false
+        working-directory: test-deploy
+        git-commit-user: Pusher Robot
+        git-commit-email: "126524721+pusher-robot@users.noreply.github.com"
+        token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
+
+    - name: Render
+      uses: kustomize-everything/action-env-build-and-deploy@v2.0.0
+      if: github.event_name == 'push'
+      with:
+        dry-run: "false"
+        environment: dev
+        push-environment-regex: (dev|messy|production)
+        pr-environment-regex: false
+        working-directory: test-deploy
+        git-commit-user: Pusher Robot
+        git-commit-email: "126524721+pusher-robot@users.noreply.github.com"
+        token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
+
+    - uses: docker://ghcr.io/yannh/kubeconform:master
+      with:
+        entrypoint: '/kubeconform'
+        # Ignore the prom CRDs for now
+        args: "-summary -schema-location default -ignore-missing-schemas -output json test-deploy/"
