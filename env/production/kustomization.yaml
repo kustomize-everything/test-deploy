@@ -8,7 +8,6 @@ helmCharts:
   releaseName: prometheus
   version: 40.0.0
 images:
-- name: nginx-stable
-  repo: https://helm.nginx.com/stable
+- name: nginx
   newName: nginxTwo
   newTag: 0.0.1
