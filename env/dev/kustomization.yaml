@@ -7,9 +7,9 @@ resources:
 images:
 - name: nginx
   newName: nginx
-  newTag: 1.0.0
+  newTag: 1.25.0
 
 helmCharts:
-  - name: kube-prometheus-stack
-    releaseName: prometheus
-    version: 42.0.0
+- name: kube-prometheus-stack
+  releaseName: prometheus
+  version: 42.0.0
