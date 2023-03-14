@@ -22,7 +22,7 @@ jobs:
         token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
 
     - name: Render
-      uses: kustomize-everything/action-env-build-and-deploy@v2.0.0
+      uses: kustomize-everything/action-env-build-and-deploy@main
       if: github.event_name == 'pull_request'
       with:
         dry-run: "true"
