@@ -18,6 +18,8 @@ jobs:
       with:
         # fetch-depth: 0 needed to get all branches
         fetch-depth: 0
+        path: test-deploy
+        token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
 
     - name: Render
       uses: kustomize-everything/action-env-build-and-deploy@v2.0.0
