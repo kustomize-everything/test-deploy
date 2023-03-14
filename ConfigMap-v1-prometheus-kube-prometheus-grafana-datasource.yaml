@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+data:
+  datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      uid: prometheus
+      url: http://prometheus-kube-prometheus-prometheus.default:9090/
+      access: proxy
+      isDefault: true
+      jsonData:
+        timeInterval: 30s
+kind: ConfigMap
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-dev
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
+  labels:
+    app: kube-prometheus-stack-grafana
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    app.kubernetes.io/version: 42.0.0
+    chart: kube-prometheus-stack-42.0.0
+    grafana_datasource: "1"
+    heritage: Helm
+    release: prometheus
+  name: prometheus-kube-prometheus-grafana-datasource
+  namespace: default

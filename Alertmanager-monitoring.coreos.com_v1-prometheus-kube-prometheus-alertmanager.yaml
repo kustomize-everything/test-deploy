@@ -1,0 +1,45 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-dev
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
+  labels:
+    app: kube-prometheus-stack-alertmanager
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    app.kubernetes.io/version: 42.0.0
+    chart: kube-prometheus-stack-42.0.0
+    heritage: Helm
+    release: prometheus
+  name: prometheus-kube-prometheus-alertmanager
+  namespace: default
+spec:
+  alertmanagerConfigNamespaceSelector: {}
+  alertmanagerConfigSelector: {}
+  externalUrl: http://prometheus-kube-prometheus-alertmanager.default:9093
+  image: quay.io/prometheus/alertmanager:v0.24.0
+  listenLocal: false
+  logFormat: logfmt
+  logLevel: info
+  paused: false
+  portName: http-web
+  replicas: 1
+  retention: 120h
+  routePrefix: /
+  securityContext:
+    fsGroup: 2000
+    runAsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: prometheus-kube-prometheus-alertmanager
+  version: v0.24.0

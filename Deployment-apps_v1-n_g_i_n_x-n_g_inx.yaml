@@ -1,13 +1,14 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
     config.kubernetes.io/origin: |
       path: ../../base/nginx/deployment.yaml
-    deployment-repo: kustomize-everything/action-env-build-and-deploy
-    deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
     env-branch: env-dev
-    env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
   labels:
     app.kubernetes.io/managed-by: kustomize-v4.5.7
   name: n:g<i>n|x-n*g?inx
@@ -20,15 +21,15 @@ spec:
   template:
     metadata:
       annotations:
-        deployment-repo: kustomize-everything/action-env-build-and-deploy
-        deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+        deployment-repo: kustomize-everything/test-deploy
+        deployment-repo-url: https://github.com/kustomize-everything/test-deploy
         env-branch: env-dev
-        env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+        env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
       labels:
         app: nginx
     spec:
       containers:
-        - image: nginx:1.43102143902.0
+        - image: nginx:1.0.0
           name: nginx
           ports:
             - containerPort: 80
