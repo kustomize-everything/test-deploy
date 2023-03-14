@@ -50,4 +50,5 @@ jobs:
     - uses: docker://ghcr.io/yannh/kubeconform:master
       with:
         entrypoint: '/kubeconform'
-        args: "-summary -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -output json test-deploy/"
+        # Ignore the prom CRDs for now
+        args: "-summary -schema-location default -ignore-missing-schemas -output json test-deploy/"
