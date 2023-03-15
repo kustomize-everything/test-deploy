@@ -4,7 +4,7 @@ on:
     - cron: '5,15,25,35,45,55 * * * *'
   workflow_dispatch:
     inputs:
-      dryRun:
+      dry-run:
         description: 'Dry run'
         required: false
         default: 'false'
@@ -12,7 +12,7 @@ on:
         options:
         - "true"
         - "false"
-      autoMerge:
+      auto-merge:
         description: 'Auto merge'
         required: false
         default: 'false'
