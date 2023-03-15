@@ -10,7 +10,7 @@ images:
   newTag: 1.0.0
 - name: busybox
   newName: busybox-env-promote
-  newTag: 1.1.1
+  newTag: 1.1.2
 
 helmCharts:
   - name: kube-prometheus-stack
