@@ -19,27 +19,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
       with:
         # fetch-depth: 0 needed to get all branches
         fetch-depth: 0
         path: test-deploy
         token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
 
-    - name: Promote
+    - name: Set ENV
+      run: |
+        echo "IMAGES=$(cat .github/config/promote-dev-to-messy.json)"
+
+    - name: Promote (workflow_dispatch)
       uses: kustomize-everything/action-promote@v3.5.0
+      if: ${{ github.event_name == 'workflow_dispatch' }}
       with:
           target-repo: kustomize-everything/test-deploy
           target-branch: main
           working-directory: test-deploy
-          images: |-
-            [
-              {
-                "name": "busybox",
-                "fromOverlay": "env/dev",
-                "overlays": ["env/messy"]
-              }
-            ]
+          images: ${{ env.IMAGES }}
           github-token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
           promotion-method: pull_request
-          dry-run: ${{ inputs.dry-run || false }}
-          auto-merge: ${{ inputs.auto-merge || false }}
+          dry-run: ${{ inputs.dry-run }}
+          auto-merge: ${{ inputs.auto-merge }}
+
+    - name: Promote (scheduled)
+      uses: kustomize-everything/action-promote@v3.5.0
+      if: ${{ github.event_name == 'schedule' }}
+      with:
+          target-repo: kustomize-everything/test-deploy
+          target-branch: main
+          working-directory: test-deploy
+          images: ${{ env.IMAGES }}
+          github-token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
+          promotion-method: pull_request
+          dry-run: false
+          auto-merge: false

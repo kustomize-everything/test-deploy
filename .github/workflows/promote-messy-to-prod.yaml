@@ -27,16 +27,9 @@ jobs:
 
     - name: Set ENV
       run: |
-        echo "IMAGES=$(cat <<EOF
-        [
-          {
-            "name": "busybox",
-            "fromOverlay": "env/messy",
-            "overlays": ["env/production"]
-          }
-        ]" >> $GITHUB_ENV
+        echo "IMAGES=$(cat .github/config/promote-messy-to-prod.json)"
 
-    - name: Promote
+    - name: Promote (workflow_dispatch)
       uses: kustomize-everything/action-promote@v3.5.0
       if: ${{ github.event_name == 'workflow_dispatch' }}
       with:
@@ -49,7 +42,7 @@ jobs:
           dry-run: ${{ inputs.dry-run }}
           auto-merge: ${{ inputs.auto-merge }}
 
-    - name: Promote
+    - name: Promote (scheduled)
       uses: kustomize-everything/action-promote@v3.5.0
       if: ${{ github.event_name == 'schedule' }}
       with:
