@@ -16,6 +16,7 @@ on:
         description: 'Auto merge'
         required: false
         default: 'false'
+        type: choice
         options:
         - "true"
         - "false"
