@@ -27,7 +27,12 @@ jobs:
 
     - name: Set ENV
       run: |
-        echo "IMAGES=$(cat .github/config/promote/messy-to-prod.json)" >> $GITHUB_ENV
+        # Generate unique EOF value to prevent injection attack
+        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+        echo "IMAGES<<$EOF" >> $GITHUB_ENV
+        cat .github/config/promote/messy-to-prod.json >> $GITHUB_ENV
+        echo "$EOF" >> $GITHUB_ENV
 
     - name: Promote (workflow_dispatch)
       uses: kustomize-everything/action-promote@v3.5.0
