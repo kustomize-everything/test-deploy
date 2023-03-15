@@ -10,7 +10,7 @@ helmCharts:
 images:
 - name: busybox
   newName: busybox-env-promote
-  newTag: 1.1.1
+  newTag: 1.1.2
 - name: nginx
   newName: nginxTwo
   newTag: 0.0.1
