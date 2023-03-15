@@ -1,7 +1,7 @@
 name: promote-messy-to-prod
 on:
   schedule:
-    - cron: '5,15,25,35,45,55 * * * *'
+    - cron: '35 * * * *'
   workflow_dispatch:
     inputs:
       dry-run:
