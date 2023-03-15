@@ -1,7 +1,7 @@
 name: promote-dev-to-messy
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '5,15,25,35,45,55 * * * *'
   workflow_dispatch:
     inputs:
       dryRun:
