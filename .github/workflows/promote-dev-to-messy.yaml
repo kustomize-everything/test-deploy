@@ -2,6 +2,16 @@ name: promote-dev-to-messy
 on:
   schedule:
     - cron: '* * * * *'
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: 'Dry run'
+        required: false
+        default: 'false'
+      autoMerge:
+        description: 'Auto merge'
+        required: false
+        default: 'false'
 
 jobs:
   promote-dev-to-messy:
@@ -29,5 +39,5 @@ jobs:
             }
           github-token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
           promotion-method: pull_request
-          dry-run: false
-          auto-merge: false
+          dry-run: ${{ inputs.dry-run || false }}
+          auto-merge: ${{ inputs.auto-merge || false }}
