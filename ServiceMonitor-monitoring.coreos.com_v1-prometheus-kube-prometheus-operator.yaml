@@ -1,0 +1,44 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-messy
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-messy
+  labels:
+    app: kube-prometheus-stack-operator
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    app.kubernetes.io/version: 40.0.0
+    chart: kube-prometheus-stack-40.0.0
+    heritage: Helm
+    release: prometheus
+  name: prometheus-kube-prometheus-operator
+  namespace: default
+spec:
+  endpoints:
+    - honorLabels: true
+      port: https
+      scheme: https
+      tlsConfig:
+        ca:
+          secret:
+            key: ca
+            name: prometheus-kube-prometheus-admission
+            optional: false
+        serverName: prometheus-kube-prometheus-operator
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: kube-prometheus-stack-operator
+      release: prometheus
