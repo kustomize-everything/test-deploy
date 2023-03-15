@@ -1,0 +1,9 @@
+[
+  {
+    "name": "busybox",
+    "fromOverlay": "env/messy",
+    "overlays": [
+      "env/production"
+    ]
+  }
+]
