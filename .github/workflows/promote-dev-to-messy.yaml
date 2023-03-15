@@ -8,10 +8,17 @@ on:
         description: 'Dry run'
         required: false
         default: 'false'
+        type: choice
+        options:
+        - "true"
+        - "false"
       autoMerge:
         description: 'Auto merge'
         required: false
         default: 'false'
+        options:
+        - "true"
+        - "false"
   push:
     tags:
       - 'v*-rc*' # e.g. v1.0-rc1, v20.15.10-rc5
