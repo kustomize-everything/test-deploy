@@ -1,4 +1,4 @@
-name: promote-dev-to-messy
+name: promote-messy-to-prod
 on:
   schedule:
     - cron: '* * * * *'
