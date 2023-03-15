@@ -39,7 +39,7 @@ jobs:
       if: github.event_name == 'push'
       with:
         dry-run: "false"
-        environment: dev
+        environment: ${{ matrix.overlay }}
         push-environment-regex: (dev|messy|production)
         pr-environment-regex: false
         working-directory: test-deploy
