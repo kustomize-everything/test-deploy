@@ -8,10 +8,20 @@ on:
         description: 'Dry run'
         required: false
         default: 'false'
+        type: choice
+        options:
+        - "true"
+        - "false"
       autoMerge:
         description: 'Auto merge'
         required: false
         default: 'false'
+        options:
+        - "true"
+        - "false"
+  push:
+    tags:
+      - 'v*' # Push tags matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   promote-messy-to-prod:
