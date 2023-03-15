@@ -11,3 +11,6 @@ images:
 - name: nginx
   newName: nginxTwo
   newTag: 0.0.1
+- name: busybox
+  newName: busybox-env-promote
+  newTag: 1.0.0
