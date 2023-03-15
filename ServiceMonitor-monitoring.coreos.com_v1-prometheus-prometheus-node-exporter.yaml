@@ -1,0 +1,35 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-production
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-production
+  labels:
+    app.kubernetes.io/component: metrics
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/name: prometheus-node-exporter
+    app.kubernetes.io/part-of: prometheus-node-exporter
+    app.kubernetes.io/version: 1.3.1
+    helm.sh/chart: prometheus-node-exporter-4.2.0
+    jobLabel: node-exporter
+    release: prometheus
+  name: prometheus-prometheus-node-exporter
+  namespace: default
+spec:
+  endpoints:
+    - port: http-metrics
+      scheme: http
+  jobLabel: jobLabel
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/name: prometheus-node-exporter

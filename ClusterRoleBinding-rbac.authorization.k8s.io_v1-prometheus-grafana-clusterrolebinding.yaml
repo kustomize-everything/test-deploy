@@ -1,0 +1,29 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-production
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-production
+  labels:
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 9.1.4
+    helm.sh/chart: grafana-6.38.0
+  name: prometheus-grafana-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus-grafana-clusterrole
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-grafana
+    namespace: default

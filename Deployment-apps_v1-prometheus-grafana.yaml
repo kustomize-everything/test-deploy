@@ -1,0 +1,165 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-production
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-production
+  labels:
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 9.1.4
+    helm.sh/chart: grafana-6.38.0
+  name: prometheus-grafana
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: prometheus
+      app.kubernetes.io/name: grafana
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/config: 115fac156689f2fe63ae44d14646af35d37d191de33fdcc2045ff7d5996cd9b8
+        checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/sc-dashboard-provider-config: 4bf2227d0e8fe485e5f3ff88d93b73f8cb6df5a4c3ffb7d89adab62c960a3861
+        checksum/secret: 0d864ac95498419090eec45d3cc4613ff1eb6489f160b310ec822afa0906d9b9
+        deployment-repo: kustomize-everything/test-deploy
+        deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+        env-branch: env-production
+        env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-production
+      labels:
+        app.kubernetes.io/instance: prometheus
+        app.kubernetes.io/name: grafana
+    spec:
+      automountServiceAccountToken: true
+      containers:
+        - env:
+            - name: METHOD
+              value: WATCH
+            - name: LABEL
+              value: grafana_dashboard
+            - name: LABEL_VALUE
+              value: "1"
+            - name: FOLDER
+              value: /tmp/dashboards
+            - name: RESOURCE
+              value: both
+          image: quay.io/kiwigrid/k8s-sidecar:1.19.2
+          imagePullPolicy: IfNotPresent
+          name: grafana-sc-dashboard
+          volumeMounts:
+            - mountPath: /tmp/dashboards
+              name: sc-dashboard-volume
+        - env:
+            - name: METHOD
+              value: WATCH
+            - name: LABEL
+              value: grafana_datasource
+            - name: LABEL_VALUE
+              value: "1"
+            - name: FOLDER
+              value: /etc/grafana/provisioning/datasources
+            - name: RESOURCE
+              value: both
+            - name: REQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: admin-user
+                  name: prometheus-grafana
+            - name: REQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: admin-password
+                  name: prometheus-grafana
+            - name: REQ_URL
+              value: http://localhost:3000/api/admin/provisioning/datasources/reload
+            - name: REQ_METHOD
+              value: POST
+          image: quay.io/kiwigrid/k8s-sidecar:1.19.2
+          imagePullPolicy: IfNotPresent
+          name: grafana-sc-datasources
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: sc-datasources-volume
+        - env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: admin-user
+                  name: prometheus-grafana
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: admin-password
+                  name: prometheus-grafana
+            - name: GF_PATHS_DATA
+              value: /var/lib/grafana/
+            - name: GF_PATHS_LOGS
+              value: /var/log/grafana
+            - name: GF_PATHS_PLUGINS
+              value: /var/lib/grafana/plugins
+            - name: GF_PATHS_PROVISIONING
+              value: /etc/grafana/provisioning
+          image: grafana/grafana:9.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 60
+            timeoutSeconds: 30
+          name: grafana
+          ports:
+            - containerPort: 3000
+              name: grafana
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+          volumeMounts:
+            - mountPath: /etc/grafana/grafana.ini
+              name: config
+              subPath: grafana.ini
+            - mountPath: /var/lib/grafana
+              name: storage
+            - mountPath: /tmp/dashboards
+              name: sc-dashboard-volume
+            - mountPath: /etc/grafana/provisioning/dashboards/sc-dashboardproviders.yaml
+              name: sc-dashboard-provider
+              subPath: provider.yaml
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: sc-datasources-volume
+      enableServiceLinks: true
+      securityContext:
+        fsGroup: 472
+        runAsGroup: 472
+        runAsUser: 472
+      serviceAccountName: prometheus-grafana
+      volumes:
+        - configMap:
+            name: prometheus-grafana
+          name: config
+        - emptyDir: {}
+          name: storage
+        - emptyDir: {}
+          name: sc-dashboard-volume
+        - configMap:
+            name: prometheus-grafana-config-dashboards
+          name: sc-dashboard-provider
+        - emptyDir: {}
+          name: sc-datasources-volume

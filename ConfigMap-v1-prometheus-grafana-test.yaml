@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+data:
+  run.sh: |-
+    @test "Test Health" {
+      url="http://prometheus-grafana/api/health"
+
+      code=$(wget --server-response --spider --timeout 90 --tries 10 ${url} 2>&1 | awk '/^  HTTP/{print $2}')
+      [ "$code" == "200" ]
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-production
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-production
+  labels:
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 9.1.4
+    helm.sh/chart: grafana-6.38.0
+  name: prometheus-grafana-test
+  namespace: default

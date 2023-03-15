@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    env-branch: env-production
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-production
+  labels:
+    app: kube-prometheus-stack-kube-etcd
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    app.kubernetes.io/version: 40.0.0
+    chart: kube-prometheus-stack-40.0.0
+    heritage: Helm
+    jobLabel: kube-etcd
+    release: prometheus
+  name: prometheus-kube-prometheus-kube-etcd
+  namespace: kube-system
+spec:
+  clusterIP: None
+  ports:
+    - name: http-metrics
+      port: 2379
+      protocol: TCP
+      targetPort: 2379
+  selector:
+    component: etcd
+  type: ClusterIP
