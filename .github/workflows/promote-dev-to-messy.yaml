@@ -32,11 +32,13 @@ jobs:
           target-branch: main
           working-directory: test-deploy
           images: |-
-            {
-              "name": "busybox",
-              "fromOverlay": "env/dev",
-              "env": ["env/messy"]
-            }
+            [
+              {
+                "name": "busybox",
+                "fromOverlay": "env/dev",
+                "overlays": ["env/messy"]
+              }
+            ]
           github-token: ${{ secrets.PUSHER_ROBOT_GITHUB_TOKEN }}
           promotion-method: pull_request
           dry-run: ${{ inputs.dry-run || false }}
