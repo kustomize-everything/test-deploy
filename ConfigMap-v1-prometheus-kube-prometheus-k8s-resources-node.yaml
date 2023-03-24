@@ -1013,10 +1013,10 @@ metadata:
       configuredBy:
         apiVersion: builtin
         kind: HelmChartInflationGenerator
-    deployment-repo: kustomize-everything/action-env-build-and-deploy
-    deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+    deployment-repo: kustomize-everything/test-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
     env-branch: env-dev
-    env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
   labels:
     app: kube-prometheus-stack-grafana
     app.kubernetes.io/instance: prometheus
