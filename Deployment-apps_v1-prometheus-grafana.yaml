@@ -8,10 +8,10 @@ metadata:
       configuredBy:
         apiVersion: builtin
         kind: HelmChartInflationGenerator
-    deployment-repo: kustomize-everything/test-deploy
-    deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+    deployment-repo: kustomize-everything/action-env-build-and-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
     env-branch: env-dev
-    env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
+    env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
   labels:
     app.kubernetes.io/instance: prometheus
     app.kubernetes.io/managed-by: kustomize-v4.5.7
@@ -36,10 +36,10 @@ spec:
         checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/sc-dashboard-provider-config: 1c259e6826ded83cd6004fe91223f1aa2df546f6d1bd03e63dcd3f6a44c899bd
         checksum/secret: a54d245829ebd1ec80dc142c62e93777d75f082a6cdc90d8d4f44d44bb8944eb
-        deployment-repo: kustomize-everything/test-deploy
-        deployment-repo-url: https://github.com/kustomize-everything/test-deploy
+        deployment-repo: kustomize-everything/action-env-build-and-deploy
+        deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
         env-branch: env-dev
-        env-branch-url: https://github.com/kustomize-everything/test-deploy/tree/env-dev
+        env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
       labels:
         app.kubernetes.io/instance: prometheus
         app.kubernetes.io/name: grafana
