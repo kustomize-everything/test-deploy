@@ -1,0 +1,47 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/action-env-build-and-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+    env-branch: env-dev
+    env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+  labels:
+    app: kube-prometheus-stack-admission
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    app.kubernetes.io/version: 42.0.0
+    chart: kube-prometheus-stack-42.0.0
+    heritage: Helm
+    release: prometheus
+  name: prometheus-kube-prometheus-admission
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: prometheus-kube-prometheus-operator
+        namespace: default
+        path: /admission-prometheusrules/mutate
+    failurePolicy: Ignore
+    name: prometheusrulemutate.monitoring.coreos.com
+    rules:
+      - apiGroups:
+          - monitoring.coreos.com
+        apiVersions:
+          - '*'
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - prometheusrules
+    sideEffects: None
+    timeoutSeconds: 10

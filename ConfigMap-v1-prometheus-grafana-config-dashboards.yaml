@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+data:
+  provider.yaml: |-
+    apiVersion: 1
+    providers:
+    - name: 'sidecarProvider'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      allowUiUpdates: false
+      updateIntervalSeconds: 30
+      options:
+        foldersFromFilesStructure: false
+        path: /tmp/dashboards
+kind: ConfigMap
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      configuredIn: kustomization.yaml
+      configuredBy:
+        apiVersion: builtin
+        kind: HelmChartInflationGenerator
+    deployment-repo: kustomize-everything/action-env-build-and-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+    env-branch: env-dev
+    env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+  labels:
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 9.2.4
+    helm.sh/chart: grafana-6.43.5
+  name: prometheus-grafana-config-dashboards
+  namespace: default

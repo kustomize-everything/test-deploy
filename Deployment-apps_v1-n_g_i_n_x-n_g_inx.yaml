@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    config.kubernetes.io/origin: |
+      path: ../../base/nginx/deployment.yaml
+    deployment-repo: kustomize-everything/action-env-build-and-deploy
+    deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+    env-branch: env-dev
+    env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v4.5.7
+  name: n:g<i>n|x-n*g?inx
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      annotations:
+        deployment-repo: kustomize-everything/action-env-build-and-deploy
+        deployment-repo-url: https://github.com/kustomize-everything/action-env-build-and-deploy
+        env-branch: env-dev
+        env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - image: nginx:1.5859812975.1
+          name: nginx
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
