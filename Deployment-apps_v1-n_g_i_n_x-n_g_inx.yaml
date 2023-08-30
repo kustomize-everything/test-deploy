@@ -10,7 +10,7 @@ metadata:
     env-branch: env-dev
     env-branch-url: https://github.com/kustomize-everything/action-env-build-and-deploy/tree/env-dev
   labels:
-    app.kubernetes.io/managed-by: kustomize-v4.5.7
+    app.kubernetes.io/managed-by: kustomize-v5.1.1
   name: n:g<i>n|x-n*g?inx
 spec:
   replicas: 1
@@ -29,7 +29,7 @@ spec:
         app: nginx
     spec:
       containers:
-        - image: nginx:1.58616642582.0
+        - image: nginx:1.6027046115.1
           name: nginx
           ports:
             - containerPort: 80
