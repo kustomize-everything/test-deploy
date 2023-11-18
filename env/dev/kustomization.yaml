@@ -5,12 +5,15 @@ resources:
 - ../../base/nginx
 
 images:
+- name: app
+  newName: orgregistry/app
+  newTag: 1.77.6
 - name: busybox
   newName: busybox-env-promote
   newTag: 1.1.2
 - name: nginx
   newName: nginx
-  newTag: 1.25.0
+  newTag: 2.2.0-204
 
 helmCharts:
 - name: kube-prometheus-stack
