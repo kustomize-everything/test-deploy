@@ -15,7 +15,7 @@ metadata:
   labels:
     app.kubernetes.io/component: metrics
     app.kubernetes.io/instance: prometheus
-    app.kubernetes.io/managed-by: kustomize-v5.1.1
+    app.kubernetes.io/managed-by: kustomize-v5.3.0
     app.kubernetes.io/name: kube-state-metrics
     app.kubernetes.io/part-of: kube-state-metrics
     app.kubernetes.io/version: 2.6.0
