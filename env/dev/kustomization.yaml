@@ -10,7 +10,7 @@ images:
   newTag: 1.1.2
 - name: nginx
   newName: nginx
-  newTag: 1.25.0
+  newTag: 2.2.0-259
 
 helmCharts:
 - name: kube-prometheus-stack
