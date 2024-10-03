@@ -47,7 +47,7 @@ jobs:
         echo "$EOF" >> $GITHUB_ENV
 
     - name: Promote (workflow_dispatch)
-      uses: kustomize-everything/action-promote@v3.7.1
+      uses: kustomize-everything/action-promote@v4.3.1
       if: ${{ github.event_name == 'workflow_dispatch' }}
       with:
           target-repo: kustomize-everything/test-deploy
@@ -60,7 +60,7 @@ jobs:
           auto-merge: ${{ inputs.auto-merge }}
 
     - name: Promote (scheduled)
-      uses: kustomize-everything/action-promote@v3.7.1
+      uses: kustomize-everything/action-promote@v4.3.1
       if: ${{ github.event_name == 'schedule' }}
       with:
           target-repo: kustomize-everything/test-deploy
